@@ -1,7 +1,7 @@
 public class Foo {
 
     public static boolean myMethod() {
-        //Test
+        //Test test
         return true;
     }
 }
