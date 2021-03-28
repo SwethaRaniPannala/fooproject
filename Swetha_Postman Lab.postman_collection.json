@@ -1,0 +1,406 @@
+{
+	"info": {
+		"_postman_id": "21c27b63-2d6d-4985-957f-24db6898648c",
+		"name": "Postman Lab",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{userName}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Booking Ids",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", ()=> pm.expect(responseCode.code).to.equal(200));\r",
+							"pm.test(\"Respeonse Time\", ()=> pm.expect(pm.response.responseTime).to.be.lessThan(1000));\r",
+							"pm.test(\"Response should contain more than one\", ()=> pm.expect(jsonData[0].bookingid).to.not.be.null);\r",
+							"pm.test(\"Booking Id need to be integer\", ()=> pm.expect(jsonData[0].bookingid).to.be.a('number'));\r",
+							"pm.test(\"Response should be json\", ()=>pm.response.to.be.json);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/booking",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Booking by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", ()=> pm.expect(responseCode.code).to.equal(200));\r",
+							"pm.test(\"Respeonse Time\", ()=> pm.expect(pm.response.responseTime).to.be.lessThan(1000));\r",
+							"pm.test(\"Response should be json\", ()=>pm.response.to.be.json);\r",
+							"pm.test(\"Response should contain firstname\", ()=>pm.expect(jsonData.firstname).to.not.be.null);\r",
+							"pm.test(\"Response firstname should be string\", ()=>pm.expect(jsonData.firstname).to.be.a('string'));\r",
+							"\r",
+							"pm.test(\"Response should contain lastname\", ()=>pm.expect(jsonData.lastname).to.not.be.null);\r",
+							"pm.test(\"Response lastname should be string\", ()=>pm.expect(jsonData.lastname).to.be.a('string'));\r",
+							"\r",
+							"pm.test(\"Response should contain totalprice\", ()=>pm.expect(jsonData.totalprice).to.not.be.null);\r",
+							"pm.test(\"Response totalprice should be number\", ()=>pm.expect(jsonData.totalprice).to.be.a('number'));\r",
+							"pm.test(\"Response should contain depositpaid\", ()=>pm.expect(jsonData.depositpaid).to.not.be.null);\r",
+							"pm.test(\"Response depositpaid should be boolean\", ()=>pm.expect(jsonData.depositpaid).to.be.a('boolean'));\r",
+							"\r",
+							"pm.test(\"Response should contain bookingdates checkin\", ()=>pm.expect(jsonData.bookingdates.checkin).to.not.be.null);\r",
+							"pm.test(\"Response bookingdates checkin should be string\", ()=>pm.expect(jsonData.bookingdates.checkin).to.be.a('string'));\r",
+							"pm.test(\"Response should contain bookingdates checkout\", ()=>pm.expect(jsonData.bookingdates.checkout).to.not.be.null);\r",
+							"pm.test(\"Response bookingdates checkout should be string\", ()=>pm.expect(jsonData.bookingdates.checkout).to.be.a('string'));\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/booking/3\n",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"booking",
+						"3\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", ()=> pm.expect(responseCode.code).to.equal(200));\r",
+							"pm.test(\"Respeonse Time\", ()=> pm.expect(pm.response.responseTime).to.be.lessThan(1000));\r",
+							"pm.test(\"Response should be json\", ()=>pm.response.to.be.json);\r",
+							"\r",
+							"pm.test(\"Response should contain bookingId\", ()=>pm.expect(jsonData.bookingid).to.not.be.null);\r",
+							"pm.test(\"Response bookingId greater than 0\", ()=>pm.expect(jsonData.bookingid).to.be.above(0));\r",
+							"pm.test(\"Response should bookingId is number\", ()=>pm.expect(jsonData.bookingid).to.be.a('number'));\r",
+							"\r",
+							"pm.test(\"Response should contain firstname\", ()=>pm.expect(jsonData.booking.firstname).to.not.be.null);\r",
+							"pm.test(\"Response firstname should be string\", ()=>pm.expect(jsonData.booking.firstname).to.be.a('string'));\r",
+							"\r",
+							"pm.test(\"Response should contain lastname\", ()=>pm.expect(jsonData.booking.lastname).to.not.be.null);\r",
+							"pm.test(\"Response lastname should be string\", ()=>pm.expect(jsonData.booking.lastname).to.be.a('string'));\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response should contain totalprice\", ()=>pm.expect(jsonData.booking.totalprice).to.not.be.null);\r",
+							"pm.test(\"Response totalprice should be number\", ()=>pm.expect(jsonData.booking.totalprice).to.be.a('number'));\r",
+							"\r",
+							"pm.test(\"Response should contain depositpaid\", ()=>pm.expect(jsonData.booking.depositpaid).to.not.be.null);\r",
+							"pm.test(\"Response depositpaid should be boolean\", ()=>pm.expect(jsonData.booking.depositpaid).to.be.a('boolean'));\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response should contain bookingdates checkin\", ()=>pm.expect(jsonData.booking.bookingdates.checkin).to.not.be.null);\r",
+							"pm.test(\"Response bookingdates checkin should be string\", ()=>pm.expect(jsonData.booking.bookingdates.checkin).to.be.a('string'));\r",
+							"\r",
+							"pm.test(\"Response should contain bookingdates checkout\", ()=>pm.expect(jsonData.booking.bookingdates.checkout).to.not.be.null);\r",
+							"pm.test(\"Response bookingdates checkout should be string\", ()=>pm.expect(jsonData.booking.bookingdates.checkout).to.be.a('string'));\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response should contain additionalneeds\", ()=>pm.expect(jsonData.booking.additionalneeds).to.not.be.null);\r",
+							"pm.test(\"Response additionalneeds should be string\", ()=>pm.expect(jsonData.booking.additionalneeds).to.be.a('string'));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\" : \"Swetha\",\r\n    \"lastname\" : \"Rani\",\r\n    \"totalprice\" : 787,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2021-03-15\",\r\n        \"checkout\" : \"2021-03-16\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/booking",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", ()=> pm.expect(responseCode.code).to.equal(200));\r",
+							"pm.test(\"Respeonse Time\", ()=> pm.expect(pm.response.responseTime).to.be.lessThan(1000));\r",
+							"pm.test(\"Response should be json\", ()=>pm.response.to.be.json);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response should contain firstname\", ()=>pm.expect(jsonData.firstname).to.not.be.null);\r",
+							"pm.test(\"Response firstname should be string\", ()=>pm.expect(jsonData.firstname).to.be.a('string'));\r",
+							"pm.test(\"Response firstname should be James\", ()=>pm.expect(jsonData.firstname).to.include(pm.environment.get(\"firstName\")));\r",
+							"\r",
+							"pm.test(\"Response should contain lastname\", ()=>pm.expect(jsonData.lastname).to.not.be.null);\r",
+							"pm.test(\"Response lastname should be string\", ()=>pm.expect(jsonData.lastname).to.be.a('string'));\r",
+							"pm.test(\"Response lastname should be Brown\", ()=>pm.expect(jsonData.lastname).to.include(pm.environment.get(\"lastName\")));\r",
+							"\r",
+							"pm.test(\"Response should contain totalprice\", ()=>pm.expect(jsonData.totalprice).to.not.be.null);\r",
+							"pm.test(\"Response totalprice should be number\", ()=>pm.expect(jsonData.totalprice).to.be.a('number'));\r",
+							"\r",
+							"pm.test(\"Response should contain depositpaid\", ()=>pm.expect(jsonData.depositpaid).to.not.be.null);\r",
+							"pm.test(\"Response depositpaid should be boolean\", ()=>pm.expect(jsonData.depositpaid).to.be.a('boolean'));\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response should contain bookingdates checkin\", ()=>pm.expect(jsonData.bookingdates.checkin).to.not.be.null);\r",
+							"pm.test(\"Response bookingdates checkin should be string\", ()=>pm.expect(jsonData.bookingdates.checkin).to.be.a('string'));\r",
+							"pm.test(\"Response bookingdates checkin should be 2021-01-01\", ()=>pm.expect(jsonData.bookingdates.checkin).to.include(pm.environment.get(\"checkin\")));\r",
+							"\r",
+							"pm.test(\"Response should contain bookingdates checkout\", ()=>pm.expect(jsonData.bookingdates.checkout).to.not.be.null);\r",
+							"pm.test(\"Response bookingdates checkout should be string\", ()=>pm.expect(jsonData.bookingdates.checkout).to.be.a('string'));\r",
+							"pm.test(\"Response bookingdates checkout should be 2021-01-01\", ()=>pm.expect(jsonData.bookingdates.checkout).to.include(pm.environment.get(\"checkout\")));\r",
+							"\r",
+							"pm.test(\"Response should contain additionalneeds\", ()=>pm.expect(jsonData.additionalneeds).to.not.be.null);\r",
+							"pm.test(\"Response additionalneeds should be string\", ()=>pm.expect(jsonData.additionalneeds).to.be.a('string'));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{Basic Auth}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\" : \"{{firstName}}\",\r\n    \"lastname\" : \"{{lastName}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/booking/3\n",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"booking",
+						"3\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Booking Partial",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", ()=> pm.expect(responseCode.code).to.equal(200));\r",
+							"pm.test(\"Respeonse Time\", ()=> pm.expect(pm.response.responseTime).to.be.lessThan(1000));\r",
+							"pm.test(\"Response should be json\", ()=>pm.response.to.be.json);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response should contain firstname\", ()=>pm.expect(jsonData.firstname).to.not.be.null);\r",
+							"pm.test(\"Response firstname should be string\", ()=>pm.expect(jsonData.firstname).to.be.a('string'));\r",
+							"pm.test(\"Response firstname should be James\", ()=>pm.expect(jsonData.firstname).to.include(pm.environment.get(\"firstName\")));\r",
+							"\r",
+							"pm.test(\"Response should contain lastname\", ()=>pm.expect(jsonData.lastname).to.not.be.null);\r",
+							"pm.test(\"Response lastname should be string\", ()=>pm.expect(jsonData.lastname).to.be.a('string'));\r",
+							"pm.test(\"Response lastname should be Brown\", ()=>pm.expect(jsonData.lastname).to.include(pm.environment.get(\"lastName\")));\r",
+							"\r",
+							"pm.test(\"Response should contain totalprice\", ()=>pm.expect(jsonData.totalprice).to.not.be.null);\r",
+							"pm.test(\"Response totalprice should be number\", ()=>pm.expect(jsonData.totalprice).to.be.a('number'));\r",
+							"\r",
+							"pm.test(\"Response should contain depositpaid\", ()=>pm.expect(jsonData.depositpaid).to.not.be.null);\r",
+							"pm.test(\"Response depositpaid should be boolean\", ()=>pm.expect(jsonData.depositpaid).to.be.a('boolean'));\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response should contain bookingdates checkin\", ()=>pm.expect(jsonData.bookingdates.checkin).to.not.be.null);\r",
+							"pm.test(\"Response bookingdates checkin should be string\", ()=>pm.expect(jsonData.bookingdates.checkin).to.be.a('string'));\r",
+							"pm.test(\"Response bookingdates checkin should be 2021-01-01\", ()=>pm.expect(jsonData.bookingdates.checkin).to.include(pm.environment.get(\"checkin\")));\r",
+							"\r",
+							"pm.test(\"Response should contain bookingdates checkout\", ()=>pm.expect(jsonData.bookingdates.checkout).to.not.be.null);\r",
+							"pm.test(\"Response bookingdates checkout should be string\", ()=>pm.expect(jsonData.bookingdates.checkout).to.be.a('string'));\r",
+							"pm.test(\"Response bookingdates checkout should be 2021-01-01\", ()=>pm.expect(jsonData.bookingdates.checkout).to.include(pm.environment.get(\"checkout\")));\r",
+							"\r",
+							"pm.test(\"Response should contain additionalneeds\", ()=>pm.expect(jsonData.additionalneeds).to.not.be.null);\r",
+							"pm.test(\"Response additionalneeds should be string\", ()=>pm.expect(jsonData.additionalneeds).to.be.a('string'));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{Basic Auth}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\" : \"{{firstName}}\",\r\n    \"lastname\" : \"{{lastName}}\",\r\n    \"totalprice\" : 211,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"{{checkin}}\",\r\n        \"checkout\" : \"{{checkout}}\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/booking/3\n",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"booking",
+						"3\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", ()=> pm.expect(responseCode.code).to.equal(201));\r",
+							"pm.test(\"Respeonse Time\", ()=> pm.expect(pm.response.responseTime).to.be.lessThan(1000));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=7270cd4766f5d4b",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/booking/10\n",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"booking",
+						"10\n"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
