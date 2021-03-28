@@ -39,7 +39,7 @@ pipeline {
 
      stage('Robot Framework System tests with Selenium') {
                  steps {
-                     sh 'robot --variable BROWSER:headlesschrome -d Results  Tests'
+                     sh 'robot --variable BROWSER:headlesschrome new.robot'
                  }
                  post {
                      always {
